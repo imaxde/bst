@@ -110,8 +110,7 @@ bool bstIsValid(BST* tree)
 }
 
 /*task-a*/
-Node* createNode(int value)
-static void inOrder(Node* node)
+Node* createNode(int value) static void inOrder(Node* node)
 {
     if (node == NULL)
         return;
