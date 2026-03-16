@@ -22,3 +22,8 @@ int bstIteratorNext(Iterator* iter);
 void bstFreeIterator(Iterator* iter);
 /*Returns true if the tree is valid, and false otherwise.*/
 bool bstIsValid(BST* tree);
+
+BST* bstCreate(void);
+void bstInsert(BST* tree, int value);
+bool bstContains(BST* tree, int value);
+void bstFree(BST* tree);
