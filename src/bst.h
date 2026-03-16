@@ -20,4 +20,5 @@ int bstIteratorNext(Iterator* iter);
 
 // function"free" for iterator's memory
 void bstFreeIterator(Iterator* iter);
+/*Returns true if the tree is valid, and false otherwise.*/
 bool bstIsValid(BST* tree);
