@@ -28,15 +28,6 @@ int main(void)
     bstInsert(tree, 5);
     bstInsert(tree, 3);
 
-    printf("Inorder: ");
-    bstInorder(tree);
-
-    printf("Preorder: ");
-    bstPreorder(tree);
-
-    printf("Postorder: ");
-    bstPostorder(tree);
-
     bstFree(tree);
 
     if (testBST()) {

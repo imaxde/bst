@@ -2,9 +2,9 @@
 
 #include <stdbool.h>
 
+typedef struct Node Node;
 typedef struct BST BST;
 typedef struct Iterator Iterator;
-typedef struct Node Node;
 
 // iterator for not-recursion tree travials
 Iterator* bstCreateIterator(BST* tree);
@@ -35,12 +35,3 @@ bool bstContains(BST* tree, int value);
 
 // function for free tree
 void bstFree(BST* tree);
-
-// function for recursive tree traversal in order
-void bstInorder(BST* tree);
-
-// function for recursive tree traversal in preorder
-void bstPreorder(BST* tree);
-
-// function for recursive tree traversal in postorder
-void bstPostorder(BST* tree);
