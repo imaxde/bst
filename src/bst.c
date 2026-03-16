@@ -84,7 +84,7 @@ void bstFreeIterator(Iterator* iter)
 int bstKthMin(BST* tree, int k)
 {
     if (!tree || k <= 0)
-        return -1; 
+        return -1;
 
     Iterator* iter = iteratorInit(tree);
     int count = 0;
