@@ -3,7 +3,6 @@
 typedef struct BST BST;
 typedef struct Node Node;
 
-
 // function for recursive tree traversal in order
 void bstInorder(BST* tree);
 
