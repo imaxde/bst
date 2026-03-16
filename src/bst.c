@@ -86,12 +86,15 @@ int bstKthMin(BST* tree, int k)
     if (!tree || k <= 0)
         return -1;
 
-    Iterator* iter = iteratorInit(tree);
+    Iterator* iter = bstCreateIterator(tree);
+    if (!iter)
+        return -1;
+
     int count = 0;
     int result = -1;
 
-    while (iteratorHasNext(iter)) {
-        int nextValue = iteratorNext(iter);
+    while (bstIteratorHasNext(iter)) {
+        int nextValue = bstIteratorNext(iter);
         count++;
         if (count == k) {
             result = nextValue;
@@ -99,6 +102,6 @@ int bstKthMin(BST* tree, int k)
         }
     }
 
-    iteratorFree(iter);
+    bstFreeIterator(iter);
     return result;
 }
