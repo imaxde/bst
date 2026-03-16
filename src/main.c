@@ -1,42 +1,47 @@
 #include "bst.h"
-#include <stdio.h>
-#include <stdlib.h>
-
-int main()
-{
-
-    printf("Task B\n");
-    printf("Inorder()");
-    bstInorder(tree);
-
-    printf("Preorder\n");
-    bstPreorder(tree);
-
-    printf("Postorder\n");
-    bstPostorder(tree);
-    return 0;
 #include <stdbool.h>
-#include <stdlib.h>
+#include <stdio.h>
 
-    bool testBST(void)
-    {
-        BST* tree = bstCreate();
-        if (!tree)
-            return false;
+static bool testBST(void)
+{
+    BST* tree = bstCreate();
+    if (!tree)
+        return false;
 
-        bstInsert(tree, 1);
-        bstInsert(tree, 2);
-        bstInsert(tree, 3);
+    bstInsert(tree, 1);
+    bstInsert(tree, 2);
+    bstInsert(tree, 3);
 
-        bool result = bstContains(tree, 1) && bstContains(tree, 2) && bstContains(tree, 3) && !bstContains(tree, 4);
+    bool result = bstContains(tree, 1) && bstContains(tree, 2) && bstContains(tree, 3) && !bstContains(tree, 4);
 
-        bstFree(tree);
-        return result;
-    }
+    bstFree(tree);
+    return result;
+}
 
-    int main(void)
-    {
-        if (testBST())
-            return 0;
+int main(void)
+{
+    BST* tree = bstCreate();
+    if (!tree) {
         return 1;
     }
+
+    bstInsert(tree, 5);
+    bstInsert(tree, 3);
+
+    printf("Inorder: ");
+    bstInorder(tree);
+
+    printf("Preorder: ");
+    bstPreorder(tree);
+
+    printf("Postorder: ");
+    bstPostorder(tree);
+
+    bstFree(tree);
+
+    if (testBST()) {
+        printf("All tests have passed\n");
+        return 0;
+    }
+    return 1;
+}
