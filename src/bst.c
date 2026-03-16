@@ -20,6 +20,7 @@ typedef struct Iterator {
     int top;
 } Iterator;
 
+/*task-h*/
 Iterator* bstCreateIterator(BST* tree)
 {
     if (tree == NULL || tree->root == NULL)
@@ -82,6 +83,7 @@ void bstFreeIterator(Iterator* iter)
     free(iter);
 }
 
+/*task-f*/
 bool bstIsValid(BST* tree)
 {
     if (!tree)
@@ -107,6 +109,7 @@ bool bstIsValid(BST* tree)
     return true;
 }
 
+/*task-a*/
 Node* createNode(int value)
 {
     Node* node = malloc(sizeof(Node));
