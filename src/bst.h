@@ -22,3 +22,8 @@ int bstIteratorNext(Iterator* iter);
 void bstFreeIterator(Iterator* iter);
 
 int bstKthMin(BST* tree, int k);
+
+BST* bstCreate(void);
+void bstInsert(BST* tree, int value);
+bool bstContains(BST* tree, int value);
+void bstFree(BST* tree);
