@@ -107,6 +107,7 @@ int bstKthMin(BST* tree, int k)
 
     bstFreeIterator(iter);
     return result;
+}
 /*task-f*/
 bool bstIsValid(BST* tree)
 {
