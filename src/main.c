@@ -1,8 +1,8 @@
 #include "bst.h"
 #include <stdbool.h>
-#include <stdlib.h>
+#include <stdio.h>
 
-bool testBST(void)
+static bool testBST(void)
 {
     BST* tree = bstCreate();
     if (!tree)
@@ -20,7 +20,28 @@ bool testBST(void)
 
 int main(void)
 {
-    if (testBST())
+    BST* tree = bstCreate();
+    if (!tree) {
+        return 1;
+    }
+
+    bstInsert(tree, 5);
+    bstInsert(tree, 3);
+
+    printf("Inorder: ");
+    bstInorder(tree);
+
+    printf("Preorder: ");
+    bstPreorder(tree);
+
+    printf("Postorder: ");
+    bstPostorder(tree);
+
+    bstFree(tree);
+
+    if (testBST()) {
+        printf("All tests have passed\n");
         return 0;
+    }
     return 1;
 }

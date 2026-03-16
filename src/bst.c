@@ -111,6 +111,58 @@ bool bstIsValid(BST* tree)
 
 /*task-a*/
 Node* createNode(int value)
+static void inOrder(Node* node)
+{
+    if (node == NULL)
+        return;
+    inOrder(node->leftChild);
+    printf("\n%d\n ", node->value);
+    inOrder(node->rightChild);
+}
+
+static void preOrder(Node* node)
+{
+    if (node == NULL)
+        return;
+    printf("\n%d\n", node->value);
+    preOrder(node->leftChild);
+    preOrder(node->rightChild);
+}
+
+static void postOrder(Node* node)
+{
+    if (node == NULL)
+        return;
+    postOrder(node->leftChild);
+    postOrder(node->rightChild);
+    printf("\n%d\n", node->value);
+}
+
+void bstInorder(BST* tree)
+{
+    if (tree == NULL || tree->root == NULL) {
+        return;
+    }
+    inOrder(tree->root);
+}
+
+void bstPreorder(BST* tree)
+{
+    if (tree == NULL || tree->root == NULL) {
+        return;
+    }
+    preOrder(tree->root);
+}
+
+void bstPostorder(BST* tree)
+{
+    if (tree == NULL || tree->root == NULL) {
+        return;
+    }
+    postOrder(tree->root);
+}
+
+static Node* createNode(int value)
 {
     Node* node = malloc(sizeof(Node));
     if (node) {
@@ -130,7 +182,7 @@ BST* bstCreate(void)
     return tree;
 }
 
-Node* insertNode(Node* node, int value)
+static Node* insertNode(Node* node, int value)
 {
     if (node == NULL) {
         return createNode(value);
@@ -150,7 +202,7 @@ void bstInsert(BST* tree, int value)
     }
 }
 
-bool containsRec(Node* root, int value)
+static bool containsRec(Node* root, int value)
 {
     if (root == NULL)
         return false;
@@ -168,7 +220,7 @@ bool bstContains(BST* tree, int value)
     return containsRec(tree->root, value);
 }
 
-void freeNode(Node* node)
+static void freeNode(Node* node)
 {
     if (node == NULL)
         return;

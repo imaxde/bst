@@ -1,9 +1,10 @@
 #pragma once
+
 #include <stdbool.h>
 
-typedef struct Node Node;
 typedef struct BST BST;
 typedef struct Iterator Iterator;
+typedef struct Node Node;
 
 // iterator for not-recursion tree travials
 Iterator* bstCreateIterator(BST* tree);
@@ -23,7 +24,23 @@ void bstFreeIterator(Iterator* iter);
 /*Returns true if the tree is valid, and false otherwise.*/
 bool bstIsValid(BST* tree);
 
+// function for create tree
 BST* bstCreate(void);
+
+// function for inserting nodes
 void bstInsert(BST* tree, int value);
+
+// function check value of the node
 bool bstContains(BST* tree, int value);
+
+// function for free tree
 void bstFree(BST* tree);
+
+// function for recursive tree traversal in order
+void bstInorder(BST* tree);
+
+// function for recursive tree traversal in preorder
+void bstPreorder(BST* tree);
+
+// function for recursive tree traversal in postorder
+void bstPostorder(BST* tree);
