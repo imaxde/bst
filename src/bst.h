@@ -20,3 +20,4 @@ int bstIteratorNext(Iterator* iter);
 
 // function"free" for iterator's memory
 void bstFreeIterator(Iterator* iter);
+bool bstIsValid(BST* tree);
