@@ -86,26 +86,26 @@ void bstFreeIterator(Iterator* iter)
 /*task-f*/
 bool bstIsValid(BST* tree)
 {
-    if (!tree)
+    if (!tree || !tree->root)
         return true;
 
-    Iterator* iter = iteratorInit(tree);
-    if (!iteratorHasNext(iter)) {
-        iteratorFree(iter);
+    Iterator* iter = bstCreateIterator(tree);
+    if (!bstIteratorHasNext(iter)) {
+        bstFreeIterator(iter);
         return true;
     }
 
-    int prevValue = iteratorNext(iter);
-    while (iteratorHasNext(iter)) {
-        int nextValue = iteratorNext(iter);
+    int prevValue = bstIteratorNext(iter);
+    while (bstIteratorHasNext(iter)) {
+        int nextValue = bstIteratorNext(iter);
         if (nextValue <= prevValue) {
-            iteratorFree(iter);
+            bstFreeIterator(iter);
             return false;
         }
         prevValue = nextValue;
     }
 
-    iteratorFree(iter);
+    bstFreeIterator(iter);
     return true;
 }
 
