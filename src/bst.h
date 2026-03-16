@@ -8,10 +8,14 @@ typedef struct Iterator Iterator;
 // iterator for not-recursion tree travials
 Iterator* bstCreateIterator(BST* tree);
 
-// function for checking if elems for travials still exist
+/*
+these functions define programms behavior 
+if iterator is leaked.
+first function check if elems for tree traviral 
+still exist, 
+and the second one return -1 if iterator is leaked
+*/
 bool bstIteratorHasNext(Iterator* iter);
-
-// if iterator is empty, function returns -1
 int bstIteratorNext(Iterator* iter);
 
 // function"free" for iterator's memory
