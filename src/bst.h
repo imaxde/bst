@@ -9,10 +9,10 @@ typedef struct Iterator Iterator;
 Iterator* bstCreateIterator(BST* tree);
 
 /*
-these functions define programms behavior 
+these functions define programms behavior
 if iterator is leaked.
-first function check if elems for tree traviral 
-still exist, 
+first function check if elems for tree traviral
+still exist,
 and the second one return -1 if iterator is leaked
 */
 bool bstIteratorHasNext(Iterator* iter);
