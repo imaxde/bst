@@ -19,14 +19,17 @@ typedef struct Iterator {
     int top;
 } Iterator;
 
-Iterator* bstCreateIterator(BST* tree) {
-    if (tree == NULL || tree->root == NULL) return NULL;
-    
+Iterator* bstCreateIterator(BST* tree)
+{
+    if (tree == NULL || tree->root == NULL)
+        return NULL;
+
     Iterator* iter = (Iterator*)malloc(sizeof(Iterator));
-    if (!iter) return NULL;
-    
+    if (!iter)
+        return NULL;
+
     iter->top = -1;
-    
+
     Node* current = tree->root;
     while (current != NULL) {
         if (iter->top >= STACK_SIZE - 1) {
@@ -37,23 +40,25 @@ Iterator* bstCreateIterator(BST* tree) {
         iter->stack[iter->top] = current;
         current = current->leftChild;
     }
-    
+
     return iter;
 }
 
-bool bstIteratorHasNext(Iterator* iter) {
+bool bstIteratorHasNext(Iterator* iter)
+{
     return (iter != NULL && iter->top >= 0);
 }
 
-int bstIteratorNext(Iterator* iter) {
+int bstIteratorNext(Iterator* iter)
+{
     if (!bstIteratorHasNext(iter)) {
         return -1;
     }
-    
+
     Node* current = iter->stack[iter->top];
     iter->top--;
     int value = current->value;
-    
+
     if (current->rightChild != NULL) {
         current = current->rightChild;
         while (current != NULL) {
@@ -65,11 +70,13 @@ int bstIteratorNext(Iterator* iter) {
             current = current->leftChild;
         }
     }
-    
+
     return value;
 }
 
-void bstFreeIterator(Iterator* iter) {
-    if (iter == NULL) return;
+void bstFreeIterator(Iterator* iter)
+{
+    if (iter == NULL)
+        return;
     free(iter);
 }
