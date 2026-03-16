@@ -1,12 +1,9 @@
 #include "bst.h"
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #define STACK_SIZE 100
-
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 typedef struct Node {
     int value;
