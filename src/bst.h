@@ -1,4 +1,5 @@
 #pragma once
+
 #include <stdbool.h>
 
 typedef struct Node Node;
@@ -25,8 +26,17 @@ void bstFreeIterator(Iterator* iter);
  If k <= 0 or k > number of elements in the tree or the tree is empty, the function returns -1
  */
 int bstKthMin(BST* tree, int k);
+/*Returns true if the tree is valid, and false otherwise.*/
+bool bstIsValid(BST* tree);
 
+// function for create tree
 BST* bstCreate(void);
+
+// function for inserting nodes
 void bstInsert(BST* tree, int value);
+
+// function check value of the node
 bool bstContains(BST* tree, int value);
+
+// function for free tree
 void bstFree(BST* tree);

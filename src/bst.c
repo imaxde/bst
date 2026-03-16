@@ -107,6 +107,30 @@ int bstKthMin(BST* tree, int k)
 
     bstFreeIterator(iter);
     return result;
+/*task-f*/
+bool bstIsValid(BST* tree)
+{
+    if (!tree || !tree->root)
+        return true;
+
+    Iterator* iter = bstCreateIterator(tree);
+    if (!bstIteratorHasNext(iter)) {
+        bstFreeIterator(iter);
+        return true;
+    }
+
+    int prevValue = bstIteratorNext(iter);
+    while (bstIteratorHasNext(iter)) {
+        int nextValue = bstIteratorNext(iter);
+        if (nextValue <= prevValue) {
+            bstFreeIterator(iter);
+            return false;
+        }
+        prevValue = nextValue;
+    }
+
+    bstFreeIterator(iter);
+    return true;
 }
 
 /*task-a*/
