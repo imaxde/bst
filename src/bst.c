@@ -1,6 +1,5 @@
 #include "bst.h"
 #include <stdbool.h>
-#include <stdio.h>
 #include <stdlib.h>
 
 typedef struct Node {
@@ -13,58 +12,126 @@ typedef struct BST {
     Node* root;
 } BST;
 
-static void inOrder(Node* node)
-{
-    if (node == NULL)
-        return;
-    inOrder(node->leftChild);
-    printf("\n%d\n ", node->value);
-    inOrder(node->rightChild);
-}
+typedef struct Iterator {
+    Node** stack;
+    int top;
+    int capacity;
+} Iterator;
 
-static void preOrder(Node* node)
+/*task-h*/
+Iterator* bstCreateIterator(BST* tree)
 {
-    if (node == NULL)
-        return;
-    printf("\n%d\n", node->value);
-    preOrder(node->leftChild);
-    preOrder(node->rightChild);
-}
+    if (tree == NULL || tree->root == NULL)
+        return NULL;
 
-static void postOrder(Node* node)
-{
-    if (node == NULL)
-        return;
-    postOrder(node->leftChild);
-    postOrder(node->rightChild);
-    printf("\n%d\n", node->value);
-}
+    Iterator* iter = malloc(sizeof(Iterator));
+    if (!iter)
+        return NULL;
 
-void bstInorder(BST* tree)
-{
-    if (tree == NULL || tree->root == NULL) {
-        return;
+    iter->top = -1;
+    iter->capacity = 100;
+    iter->stack = malloc(iter->capacity * sizeof(Node*));
+    if (!iter->stack) {
+        free(iter);
+        return NULL;
     }
-    inOrder(tree->root);
-}
 
-void bstPreorder(BST* tree)
-{
-    if (tree == NULL || tree->root == NULL) {
-        return;
+    Node* current = tree->root;
+    while (current != NULL) {
+        if (iter->top >= iter->capacity - 1) {
+            int newCapacity = iter->capacity * 2;
+            Node** newStack = realloc(iter->stack, newCapacity * sizeof(Node*));
+            if (!newStack) {
+                free(iter->stack);
+                free(iter);
+                return NULL;
+            }
+            iter->stack = newStack;
+            iter->capacity = newCapacity;
+        }
+        iter->top++;
+        iter->stack[iter->top] = current;
+        current = current->leftChild;
     }
-    preOrder(tree->root);
+
+    return iter;
 }
 
-void bstPostorder(BST* tree)
+bool bstIteratorHasNext(Iterator* iter)
 {
-    if (tree == NULL || tree->root == NULL) {
-        return;
-    }
-    postOrder(tree->root);
+    return (iter != NULL && iter->top >= 0);
 }
 
-static Node* createNode(int value)
+int bstIteratorNext(Iterator* iter)
+{
+    if (!bstIteratorHasNext(iter)) {
+        return -1;
+    }
+
+    Node* current = iter->stack[iter->top];
+    iter->top--;
+    int value = current->value;
+
+    if (current->rightChild != NULL) {
+        current = current->rightChild;
+        while (current != NULL) {
+            if (iter->top >= iter->capacity - 1) {
+                int newCapacity = iter->capacity * 2;
+                Node** newStack = realloc(iter->stack, newCapacity * sizeof(Node*));
+                if (!newStack) {
+                    return -1;
+                }
+                iter->stack = newStack;
+                iter->capacity = newCapacity;
+                iter->top++;
+                iter->stack[iter->top] = current;
+                current = current->leftChild;
+            }
+        }
+
+        return value;
+    }
+
+    return value;
+}
+
+void bstFreeIterator(Iterator* iter)
+{
+    if (iter == NULL)
+        return;
+    if (iter->stack)
+        free(iter->stack);
+    free(iter);
+}
+
+/*task-f*/
+bool bstIsValid(BST* tree)
+{
+    if (!tree || !tree->root)
+        return true;
+
+    Iterator* iter = bstCreateIterator(tree);
+    if (!bstIteratorHasNext(iter)) {
+        bstFreeIterator(iter);
+        return true;
+    }
+
+    int prevValue = bstIteratorNext(iter);
+    while (bstIteratorHasNext(iter)) {
+        int nextValue = bstIteratorNext(iter);
+        if (nextValue <= prevValue) {
+            bstFreeIterator(iter);
+            return false;
+        }
+        prevValue = nextValue;
+    }
+
+    bstFreeIterator(iter);
+    return true;
+}
+
+/*task-a*/
+Node* createNode(int value)
 {
     Node* node = malloc(sizeof(Node));
     if (node) {
@@ -84,7 +151,7 @@ BST* bstCreate(void)
     return tree;
 }
 
-static Node* insertNode(Node* node, int value)
+Node* insertNode(Node* node, int value)
 {
     if (node == NULL) {
         return createNode(value);
@@ -104,7 +171,7 @@ void bstInsert(BST* tree, int value)
     }
 }
 
-static bool containsRec(Node* root, int value)
+bool containsRec(Node* root, int value)
 {
     if (root == NULL)
         return false;
@@ -122,7 +189,7 @@ bool bstContains(BST* tree, int value)
     return containsRec(tree->root, value);
 }
 
-static void freeNode(Node* node)
+void freeNode(Node* node)
 {
     if (node == NULL)
         return;
