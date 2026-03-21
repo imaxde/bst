@@ -1,9 +1,7 @@
 #include "bst.h"
 #include <stdbool.h>
-#include <stdio.h>
 #include <stdlib.h>
 
-#define STACK_SIZE 100
 
 typedef struct Node {
     int value;
@@ -16,8 +14,9 @@ typedef struct BST {
 } BST;
 
 typedef struct Iterator {
-    Node* stack[STACK_SIZE];
+    Node** stack;
     int top;
+    int capacity;
 } Iterator;
 
 /*task-h*/
@@ -31,12 +30,25 @@ Iterator* bstCreateIterator(BST* tree)
         return NULL;
 
     iter->top = -1;
+    iter->capacity = 100;
+    iter->stack = (Node**)malloc(iter->capacity * sizeof(Node*));
+    if (!iter->stack) {
+        free(iter);
+        return NULL;
+    }
 
     Node* current = tree->root;
     while (current != NULL) {
-        if (iter->top >= STACK_SIZE - 1) {
-            free(iter);
-            return NULL;
+        if (iter->top >= iter->capacity - 1) {
+            int newCapacity = iter->capacity * 2;
+            Node** newStack = (Node**)realloc(iter->stack, newCapacity * sizeof(Node*));
+            if (!newStack) {
+                free(iter->stack);
+                free(iter);
+                return NULL;
+            }
+            iter->stack = newStack;
+            iter->capacity = newCapacity;
         }
         iter->top++;
         iter->stack[iter->top] = current;
@@ -64,8 +76,13 @@ int bstIteratorNext(Iterator* iter)
     if (current->rightChild != NULL) {
         current = current->rightChild;
         while (current != NULL) {
-            if (iter->top >= STACK_SIZE - 1) {
-                return value;
+            if (iter->top >= iter->capacity - 1) {
+                int newCapacity = iter->capacity * 2;
+                Node** newStack = (Node**)realloc(iter->stack, newCapacity * sizeof(Node*));
+                if (!newStack) {
+                    return value;
+                iter->stack = newStack;
+                iter->capacity = newCapacity;
             }
             iter->top++;
             iter->stack[iter->top] = current;
@@ -80,6 +97,8 @@ void bstFreeIterator(Iterator* iter)
 {
     if (iter == NULL)
         return;
+    if (iter->stack)
+        free(iter->stack);
     free(iter);
 }
 
