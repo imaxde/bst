@@ -23,6 +23,11 @@ int bstIteratorNext(Iterator* iter);
 
 // function"free" for iterator's memory
 void bstFreeIterator(Iterator* iter);
+/*
+ Returns the k-th smallest element in the BST (k starts from 1).
+ If k <= 0 or k > number of elements in the tree or the tree is empty, the function returns -1
+ */
+int bstKthMin(BST* tree, int k);
 /*Returns true if the tree is valid, and false otherwise.*/
 bool bstIsValid(BST* tree);
 

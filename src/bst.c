@@ -104,6 +104,31 @@ void bstFreeIterator(Iterator* iter)
     free(iter);
 }
 
+/*task - g*/
+int bstKthMin(BST* tree, int k)
+{
+    if (!tree || k <= 0)
+        return -1;
+
+    Iterator* iter = bstCreateIterator(tree);
+    if (!iter)
+        return -1;
+
+    int count = 0;
+    int result = -1;
+
+    while (bstIteratorHasNext(iter)) {
+        int nextValue = bstIteratorNext(iter);
+        count++;
+        if (count == k) {
+            result = nextValue;
+            break;
+        }
+    }
+
+    bstFreeIterator(iter);
+    return result;
+}
 /*task-f*/
 bool bstIsValid(BST* tree)
 {
