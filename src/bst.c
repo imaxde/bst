@@ -80,9 +80,9 @@ int bstIteratorNext(Iterator* iter)
                 Node** newStack = realloc(iter->stack, newCapacity * sizeof(Node*));
                 if (!newStack) {
                     return -1;
-                    iter->stack = newStack;
-                    iter->capacity = newCapacity;
                 }
+                iter->stack = newStack;
+                iter->capacity = newCapacity;
                 iter->top++;
                 iter->stack[iter->top] = current;
                 current = current->leftChild;
@@ -92,113 +92,116 @@ int bstIteratorNext(Iterator* iter)
         return value;
     }
 
-    void bstFreeIterator(Iterator * iter)
-    {
-        if (iter == NULL)
-            return;
-        if (iter->stack)
-            free(iter->stack);
-        free(iter);
-    }
+    return value;
+}
 
-    /*task-f*/
-    bool bstIsValid(BST * tree)
-    {
-        if (!tree || !tree->root)
-            return true;
+void bstFreeIterator(Iterator* iter)
+{
+    if (iter == NULL)
+        return;
+    if (iter->stack)
+        free(iter->stack);
+    free(iter);
+}
 
-        Iterator* iter = bstCreateIterator(tree);
-        if (!bstIteratorHasNext(iter)) {
-            bstFreeIterator(iter);
-            return true;
-        }
+/*task-f*/
+bool bstIsValid(BST* tree)
+{
+    if (!tree || !tree->root)
+        return true;
 
-        int prevValue = bstIteratorNext(iter);
-        while (bstIteratorHasNext(iter)) {
-            int nextValue = bstIteratorNext(iter);
-            if (nextValue <= prevValue) {
-                bstFreeIterator(iter);
-                return false;
-            }
-            prevValue = nextValue;
-        }
-
+    Iterator* iter = bstCreateIterator(tree);
+    if (!bstIteratorHasNext(iter)) {
         bstFreeIterator(iter);
         return true;
     }
 
-    /*task-a*/
-    Node* createNode(int value)
-    {
-        Node* node = malloc(sizeof(Node));
-        if (node) {
-            node->value = value;
-            node->leftChild = NULL;
-            node->rightChild = NULL;
-        }
-        return node;
-    }
-
-    BST* bstCreate(void)
-    {
-        BST* tree = malloc(sizeof(BST));
-        if (tree != NULL) {
-            tree->root = NULL;
-        }
-        return tree;
-    }
-
-    Node* insertNode(Node * node, int value)
-    {
-        if (node == NULL) {
-            return createNode(value);
-        }
-        if (value < node->value) {
-            node->leftChild = insertNode(node->leftChild, value);
-        } else if (value > node->value) {
-            node->rightChild = insertNode(node->rightChild, value);
-        }
-        return node;
-    }
-
-    void bstInsert(BST * tree, int value)
-    {
-        if (tree != NULL) {
-            tree->root = insertNode(tree->root, value);
-        }
-    }
-
-    bool containsRec(Node * root, int value)
-    {
-        if (root == NULL)
+    int prevValue = bstIteratorNext(iter);
+    while (bstIteratorHasNext(iter)) {
+        int nextValue = bstIteratorNext(iter);
+        if (nextValue <= prevValue) {
+            bstFreeIterator(iter);
             return false;
-        if (value == root->value)
-            return true;
-        if (value < root->value)
-            return containsRec(root->leftChild, value);
-        return containsRec(root->rightChild, value);
-    }
-
-    bool bstContains(BST * tree, int value)
-    {
-        if (tree == NULL)
-            return false;
-        return containsRec(tree->root, value);
-    }
-
-    void freeNode(Node * node)
-    {
-        if (node == NULL)
-            return;
-        freeNode(node->leftChild);
-        freeNode(node->rightChild);
-        free(node);
-    }
-
-    void bstFree(BST * tree)
-    {
-        if (tree != NULL) {
-            freeNode(tree->root);
-            tree->root = NULL;
         }
+        prevValue = nextValue;
     }
+
+    bstFreeIterator(iter);
+    return true;
+}
+
+/*task-a*/
+Node* createNode(int value)
+{
+    Node* node = malloc(sizeof(Node));
+    if (node) {
+        node->value = value;
+        node->leftChild = NULL;
+        node->rightChild = NULL;
+    }
+    return node;
+}
+
+BST* bstCreate(void)
+{
+    BST* tree = malloc(sizeof(BST));
+    if (tree != NULL) {
+        tree->root = NULL;
+    }
+    return tree;
+}
+
+Node* insertNode(Node* node, int value)
+{
+    if (node == NULL) {
+        return createNode(value);
+    }
+    if (value < node->value) {
+        node->leftChild = insertNode(node->leftChild, value);
+    } else if (value > node->value) {
+        node->rightChild = insertNode(node->rightChild, value);
+    }
+    return node;
+}
+
+void bstInsert(BST* tree, int value)
+{
+    if (tree != NULL) {
+        tree->root = insertNode(tree->root, value);
+    }
+}
+
+bool containsRec(Node* root, int value)
+{
+    if (root == NULL)
+        return false;
+    if (value == root->value)
+        return true;
+    if (value < root->value)
+        return containsRec(root->leftChild, value);
+    return containsRec(root->rightChild, value);
+}
+
+bool bstContains(BST* tree, int value)
+{
+    if (tree == NULL)
+        return false;
+    return containsRec(tree->root, value);
+}
+
+void freeNode(Node* node)
+{
+    if (node == NULL)
+        return;
+    freeNode(node->leftChild);
+    freeNode(node->rightChild);
+    free(node);
+}
+
+void bstFree(BST* tree)
+{
+    if (tree != NULL) {
+        freeNode(tree->root);
+        tree->root = NULL;
+    }
+}
