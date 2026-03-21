@@ -25,13 +25,13 @@ Iterator* bstCreateIterator(BST* tree)
     if (tree == NULL || tree->root == NULL)
         return NULL;
 
-    Iterator* iter = (Iterator*)malloc(sizeof(Iterator));
+    Iterator* iter = malloc(sizeof(Iterator));
     if (!iter)
         return NULL;
 
     iter->top = -1;
     iter->capacity = 100;
-    iter->stack = (Node**)malloc(iter->capacity * sizeof(Node*));
+    iter->stack = malloc(iter->capacity * sizeof(Node*));
     if (!iter->stack) {
         free(iter);
         return NULL;
@@ -41,7 +41,7 @@ Iterator* bstCreateIterator(BST* tree)
     while (current != NULL) {
         if (iter->top >= iter->capacity - 1) {
             int newCapacity = iter->capacity * 2;
-            Node** newStack = (Node**)realloc(iter->stack, newCapacity * sizeof(Node*));
+            Node** newStack = realloc(iter->stack, newCapacity * sizeof(Node*));
             if (!newStack) {
                 free(iter->stack);
                 free(iter);
@@ -78,7 +78,7 @@ int bstIteratorNext(Iterator* iter)
         while (current != NULL) {
             if (iter->top >= iter->capacity - 1) {
                 int newCapacity = iter->capacity * 2;
-                Node** newStack = (Node**)realloc(iter->stack, newCapacity * sizeof(Node*));
+                Node** newStack = realloc(iter->stack, newCapacity * sizeof(Node*));
                 if (!newStack) {
                     return value;
                 iter->stack = newStack;
