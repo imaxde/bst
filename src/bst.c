@@ -80,7 +80,7 @@ int bstIteratorNext(Iterator* iter)
                 int newCapacity = iter->capacity * 2;
                 Node** newStack = realloc(iter->stack, newCapacity * sizeof(Node*));
                 if (!newStack) {
-                    return value;
+                    return -1;
                 iter->stack = newStack;
                 iter->capacity = newCapacity;
             }
