@@ -7,6 +7,7 @@ typedef struct BST BST;
 typedef struct Iterator Iterator;
 
 // iterator for not-recursion tree travials
+// returns null only if memory allocation failed
 Iterator* bstCreateIterator(BST* tree);
 
 /*
@@ -15,6 +16,7 @@ if iterator is leaked.
 first function check if elems for tree traviral
 still exist,
 and the second one return -1 if iterator is leaked
+or memory allocation failed
 */
 bool bstIteratorHasNext(Iterator* iter);
 int bstIteratorNext(Iterator* iter);
